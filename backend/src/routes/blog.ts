@@ -87,7 +87,18 @@
                 datasourceUrl: c.env.DATABASE_URL
               }).$extends(withAccelerate())
 
-            const blogs = await prisma.post.findMany()
+            const blogs = await prisma.post.findMany({
+                select: {
+                    content: true,
+                    title: true,
+                    id: true,
+                    author: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            })
 
             return c.json({
                 blogs
@@ -100,9 +111,19 @@
               }).$extends(withAccelerate())
             const id = c.req.param("id")
             try { 
-                const blog = await prisma.user.findFirst({
+                const blog = await prisma.post.findFirst({
                     where : {
                         id: id
+                    },
+                    select: {
+                        id: true,
+                        title: true,
+                        content:true,
+                        author: {
+                            select: {
+                                name: true
+                            }
+                        }
                     }
                 })
                 return c.json({
