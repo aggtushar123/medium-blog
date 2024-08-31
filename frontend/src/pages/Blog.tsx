@@ -1,5 +1,4 @@
 import { BlogDetails } from "../components/BlogDetails"
-import { BlogSkeleton } from "../components/BlogSkeleton"
 import { Spinner } from "../components/Spinner"
 import { useBlog } from "../hooks"
 import { useParams } from "react-router-dom"
@@ -8,7 +7,7 @@ export const Blog = () =>{
     const {loading, blog} = useBlog({
         id: id || ""
     })
-    if(loading){
+    if(loading || !blog){
         return <div className="h-screen flex flex-col justify-center">
             <div className="flex justify-center">
                 <Spinner/>
